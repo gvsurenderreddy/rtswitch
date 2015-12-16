@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 #-*-encoding:utf-8 -*-
 import ConfigParser
-import string, os, sys, getopt
+import string, os, sys
+import argparse
 
 PROGRAM = "rtswitch"
 VERSION = "v0.1"
@@ -47,22 +48,22 @@ def usage():
 
 
 if __name__ == '__main__':
-    opts,args = getopt.getopt(sys.argv[1:], "hi:o:l:", ["version", "help", "add=", "delete="])
-    input_file=""
-    output_file=""
+    parser = argparse.ArgumentParser(description = "some information here")
+    parser.add_argument("-l", "--list", help="list input node or tunnels", action='store_true')
+    parser.add_argument("-A", "--add", help="add a tunnel", dest="new_tun")
+    parser.add_argument("-D", "--del", help="delete a tunnel", dest= "del_tun")
 
-    for op,value in opts:
-        if op == "-i":
-            input_file = value
-        elif op == "-o":
-            output_file = value
-        elif op == "-h":
-            usage()
-            sys.exit()
-        elif op == "--version":
-            print "%s %s" %(PROGRAM, VERSION)
-            sys.exit()
-        elif op == "--help":
-            usage()
-    print "hello world"
+    args = parser.parse_args()
+    print args.del_tun
+
+    cf = ConfigParser.ConfigParser()
+    cf.read("sample.conf")
+    s = cf.sections()
+    cf.remove_section(args.del_tun)
+    cf.write(open("sample.conf", "w"))
+    #cf.add_section(args.add)
+    #cf.set(args.add, "host", "172.16.18.11")
+    #cf.write(open("sample.conf", "a+w"))
+
+
     readConfig()
