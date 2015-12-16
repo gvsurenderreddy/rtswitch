@@ -61,9 +61,9 @@ if __name__ == '__main__':
     s = cf.sections()
     cf.remove_section(args.del_tun)
     cf.write(open("sample.conf", "w"))
-    #cf.add_section(args.add)
-    #cf.set(args.add, "host", "172.16.18.11")
-    #cf.write(open("sample.conf", "a+w"))
+    cf.add_section(args.add)
+    cf.set(args.add, "host", "172.16.18.11")
+    cf.write(open("sample.conf", "a+w"))
 
 
     readConfig()
